@@ -71,7 +71,7 @@ describe("kasbah hello instruction", () => {
     latestBlockhash = value;
   });
 
-  it("successfully call the hello function", async () => {
+  it("successfully calls the hello function", async () => {
     const instruction = getHelloInstruction({
       id: 1,
       signer,
