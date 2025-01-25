@@ -1,2 +1,5 @@
-pub mod hello;
-pub use hello::*;
+pub mod genesis;
+pub use genesis::*;
+
+pub mod deposit;
+pub use deposit::*;
