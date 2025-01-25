@@ -5,4 +5,5 @@ target
 node_modules
 test-ledger
 .yarn
-keys/
+keys/*.json
+!keys/adminwH8kDUg5DqfsA6egyPDj7uFJTgBwDG1L7skJaq.json
