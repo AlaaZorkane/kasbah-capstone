@@ -58,14 +58,24 @@ pub mod kasbah {
 
 #[cfg(test)]
 mod tests {
+    use solana_zk_sdk::encryption::elgamal::ElGamalKeypair;
+
     use super::*;
 
     #[test]
     fn alice_offchain_deposit() {
         let amount = 1_u64;
-        let alice = Pubkey::from_str_const("ALAAqK8zJkFsU2FmzzBypJZmJngBuQ6ayHeR2cHsTJN1");
         let bob = Pubkey::from_str_const("bob4ZvJTTbsctjEnY33kjiYuKuo32F9mpAcjH9yzRUe");
+        let elgamal_kp = ElGamalKeypair::new_rand();
+        let elgamal_secret = elgamal_kp.secret().clone();
+        let pool_index = 0;
 
-        let receipt = KasbahDepositReceipt::new(amount, bob);
+        // 1. Alice generates a deposit receipt, and sends it to bob offchain
+        let receipt = KasbahDepositReceipt::new(amount, bob, elgamal_secret, pool_index);
+
+        // TODO: encrypt the receipt with bob's solana public key before sending it to bob
+
+        // 2. Bob generates a redemption package offchain
+        let redemption_package = KasbahRedemptionPackage::generate(receipt);
     }
 }

@@ -3,3 +3,4 @@ pub const TREASURY_SEED: &[u8] = b"treasury";
 pub const COMMITMENT_POOL_SEED: &[u8] = b"commitment_pool";
 pub const COMMITMENT_POOL_GENESIS_ID: u64 = 1;
 pub const MAX_COMMITMENTS_PER_POOL: u16 = 1000;
+pub const ZK_SEED: &[u8] = b"kasbah_zk";
