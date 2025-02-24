@@ -6,6 +6,7 @@
     "lint:fix": "biome lint --unsafe --error-on-warnings ./tests",
     "lint": "biome lint --error-on-warnings .",
     "test": "vitest --dir ./tests",
+    "circuits:compile": "circom circuits/ksb.circom --r1cs --wasm --sym -o ./circuits && mv circuits/ksb_js/ksb.wasm ./circuits/ksb.wasm && rm -rf circuits/ksb_js",
     "generate:idl:kasbah": "anchor idl build --program-name kasbah > ./idl/kasbah.json",
     "generate:clients": "bun run ./scripts/generate-clients.ts"
   },
@@ -23,6 +24,7 @@
     "@codama/renderers-js": "^1.1.1",
     "@solana-program/system": "^0.6.2",
     "@solana/web3.js": "^2.0.0",
+    "circomlib": "^2.0.5",
     "codama": "^1.2.0",
     "pino": "^9.6.0",
     "pino-pretty": "^13.0.0"
