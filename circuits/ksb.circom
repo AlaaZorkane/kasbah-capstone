@@ -10,8 +10,8 @@ template KasbahCommitmentCircuit(DEPTH) {
     // Private Inputs
     signal input nullifier;
     signal input secret;
-    signal input path_indices[DEPTH];
     signal input merkle_path[DEPTH];
+    signal input siblings[DEPTH];
 
     // 1. Compute the Commitment = Poseidon(nullifier, secret)
     component poseidonCommitment = Poseidon(2);
@@ -25,7 +25,7 @@ template KasbahCommitmentCircuit(DEPTH) {
     signal intermediateHashes[DEPTH + 1];
     signal left[DEPTH];
     signal right[DEPTH];
-    signal not_path_indices[DEPTH];
+    signal not_merkle_path[DEPTH];
     signal prod_left1[DEPTH];
     signal prod_left2[DEPTH];
     signal prod_right1[DEPTH];
@@ -38,23 +38,27 @@ template KasbahCommitmentCircuit(DEPTH) {
     component poseidonHashers[DEPTH];
     for (var i = 0; i < DEPTH; i++) {
         poseidonHashers[i] = Poseidon(2);
-
-        // Ensure path_indices[i] is binary (0 or 1)
-        path_indices[i] * (1 - path_indices[i]) === 0;
-
-        // Compute not_path_indices[i]
-        not_path_indices[i] <== 1 - path_indices[i];
-
+        
+        // Since merkle_path and siblings are given top-to-bottom,
+        // we need to access them in reverse order
+        var pathIdx = DEPTH - 1 - i;
+        
+        // Ensure merkle_path[pathIdx] is binary (0 or 1)
+        merkle_path[pathIdx] * (1 - merkle_path[pathIdx]) === 0;
+        
+        // Compute not_merkle_path using the reversed index
+        not_merkle_path[i] <== 1 - merkle_path[pathIdx];
+        
         // Compute left[i]
-        prod_left1[i] <== intermediateHashes[i] * not_path_indices[i];
-        prod_left2[i] <== merkle_path[i] * path_indices[i];
+        prod_left1[i] <== intermediateHashes[i] * not_merkle_path[i];
+        prod_left2[i] <== siblings[pathIdx] * merkle_path[pathIdx];
         left[i] <== prod_left1[i] + prod_left2[i];
-
+        
         // Compute right[i]
-        prod_right1[i] <== merkle_path[i] * not_path_indices[i];
-        prod_right2[i] <== intermediateHashes[i] * path_indices[i];
+        prod_right1[i] <== siblings[pathIdx] * not_merkle_path[i];
+        prod_right2[i] <== intermediateHashes[i] * merkle_path[pathIdx];
         right[i] <== prod_right1[i] + prod_right2[i];
-
+        
         // Compute the next hash
         poseidonHashers[i].inputs[0] <== left[i];
         poseidonHashers[i].inputs[1] <== right[i];
@@ -74,4 +78,4 @@ template KasbahCommitmentCircuit(DEPTH) {
     poseidonNullifierHash.out === nullifier_hash;
 }
 
-component main {public [root, nullifier_hash]} = KasbahCommitmentCircuit(20);
+component main {public [root, nullifier_hash]} = KasbahCommitmentCircuit(2);
