@@ -35,8 +35,8 @@ async fn arkworks_wasm_compat_should_succeed() -> Result<()> {
 
     let mut builder = CircomBuilder::new(cfg);
     let mut hasher = Poseidon::<Fr>::new_circom(1)?;
-    let nullifier = random_fr();
-    let secret = random_fr();
+    let nullifier = random_fr().unwrap();
+    let secret = random_fr().unwrap();
     let mut commitment_hasher = Poseidon::<Fr>::new_circom(2)?;
     let commitment = commitment_hasher.hash(&[nullifier, secret]).unwrap();
 
@@ -64,7 +64,7 @@ async fn arkworks_wasm_compat_should_succeed() -> Result<()> {
     println!("nullifier_hash: {:?}", nullifier_hash.into_bigint());
 
     // Merkle path inputs (arrays)
-    let merkle_path_vec = merkle_path.to_bits_vec(DEPTH);
+    let merkle_path_vec = merkle_path.to_fr_vec(DEPTH);
     let merkle_proof = merkle.generate_proof(&merkle_path).unwrap();
     let siblings = merkle_proof.siblings;
 
