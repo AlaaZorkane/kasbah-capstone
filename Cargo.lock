@@ -2844,6 +2844,7 @@ dependencies = [
  "ark-circom",
  "ark-ff 0.5.0",
  "ark-groth16",
+ "ark-relations",
  "ark-serialize 0.5.0",
  "ark-snark",
  "ark-std 0.5.0",
@@ -2856,6 +2857,9 @@ dependencies = [
  "serde",
  "serde-wasm-bindgen 0.6.5",
  "solana-pubkey 2.2.1",
+ "tokio",
+ "tracing",
+ "tracing-subscriber 0.3.19",
  "wasm-bindgen",
 ]
 
@@ -3074,8 +3078,8 @@ dependencies = [
 
 [[package]]
 name = "merkle-poseidon"
-version = "0.1.0"
-source = "git+https://github.com/AlaaZorkane/merkle-poseidon#fc8ce5146950eae3661423a05876be0b89cfa8e3"
+version = "0.3.0"
+source = "git+https://github.com/AlaaZorkane/merkle-poseidon#e7632843eb3e041060b1126766db021a89fd588e"
 dependencies = [
  "ark-bn254 0.5.0",
  "ark-ff 0.5.0",
@@ -3152,6 +3156,16 @@ dependencies = [
  "security-framework",
  "security-framework-sys",
  "tempfile",
+]
+
+[[package]]
+name = "nu-ansi-term"
+version = "0.46.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "77a8165726e8236064dbb45459242600304b42a5ea24ee2948e18e023bf7ba84"
+dependencies = [
+ "overload",
+ "winapi",
 ]
 
 [[package]]
@@ -3386,6 +3400,12 @@ dependencies = [
  "pkg-config",
  "vcpkg",
 ]
+
+[[package]]
+name = "overload"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b15813163c1d831bf4a13c3610c05c0d03b39feb07f7e09fa234dac9b15aaf39"
 
 [[package]]
 name = "owo-colors"
@@ -7085,6 +7105,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "tracing-log"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ee855f1f400bd0e5c02d150ae5de3840039a3f54b025156404e34c23c03f47c3"
+dependencies = [
+ "log",
+ "once_cell",
+ "tracing-core",
+]
+
+[[package]]
 name = "tracing-subscriber"
 version = "0.2.25"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -7099,9 +7130,12 @@ version = "0.3.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e8189decb5ac0fa7bc8b96b7cb9b2701d60d48805aca84a238004d665fcc4008"
 dependencies = [
+ "nu-ansi-term",
  "sharded-slab",
+ "smallvec",
  "thread_local",
  "tracing-core",
+ "tracing-log",
 ]
 
 [[package]]

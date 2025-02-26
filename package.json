@@ -6,7 +6,7 @@
     "lint:fix": "biome lint --unsafe --error-on-warnings ./tests",
     "lint": "biome lint --error-on-warnings .",
     "test": "vitest --dir ./tests",
-    "circuits:compile": "circom circuits/ksb.circom --r1cs --wasm --sym -o ./circuits && mv circuits/ksb_js/ksb.wasm ./circuits/ksb.wasm && rm -rf circuits/ksb_js",
+    "circuits:compile": "circom circuits/ksb.circom --r1cs --wasm --sym --inspect -o ./circuits && mv circuits/ksb_js/ksb.wasm ./circuits/ksb.wasm && rm -rf circuits/ksb_js",
     "generate:idl:kasbah": "anchor idl build --program-name kasbah > ./idl/kasbah.json",
     "generate:clients": "bun run ./scripts/generate-clients.ts"
   },
